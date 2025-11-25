@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lynx Assistant – Automatize seu Desktop com Linguagem Natural</title>
   <meta name="description" content="Assistente desktop open source que executa comandos e automações usando linguagem natural. Abra programas, sites e ambientes de trabalho instantaneamente." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta property="og:title" content="Lynx Assistant – Automatize seu Desktop com Linguagem Natural" />
+<meta property="og:description" content="Assistente desktop open source que executa comandos e automações usando linguagem natural. Abra programas, sites e ambientes de trabalho instantaneamente." />
+<meta property="og:image" content="/mnt/data/61d4e5e9-3754-4fb6-b8bb-03f37bce38db.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href=\"/favicon.ico\" />
+<script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { 
       darkMode: 'class', 
@@ -53,16 +58,28 @@
     .scroll-smooth { scroll-behavior: smooth; }
     section { scroll-margin-top: 80px; }
     .typing-cursor::after { content: '|'; animation: blink 1s infinite; }
+    .show-focus-outlines :focus { outline: 3px solid rgba(0,200,83,0.35); outline-offset: 2px; }
+    .visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
+
     @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
   </style>
 </head>
 <body class="dark bg-zinc-950 text-zinc-100 antialiased scroll-smooth">
+  <!-- Loader -->
+  <div id="siteLoader" class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/80">
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-16 h-16 rounded-full animate-pulse-glow"></div>
+      <div class="text-zinc-400">Carregando Lynx Assistant…</div>
+    </div>
+  </div>
+
 
   <!-- Navegação -->
-  <nav class="fixed top-0 w-full z-50 glass">
+  <nav class="fixed top-0 w-full z-50 glass" role="navigation" aria-label="Main navigation">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center gap-3">
+          <button id="mobileNavBtn" class="md:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10" aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menu mobile"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
           <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-lynx to-lynx-700 flex items-center justify-center font-bold text-xl">L</div>
           <span class="text-xl font-bold gradient-text">Lynx Assistant</span>
         </div>
@@ -73,8 +90,16 @@
           <a href="#install" class="text-sm hover:text-lynx transition">Instalação</a>
           <a href="https://github.com/gabriel-araujo-git/Lynx-Assistant" target="_blank" class="text-sm hover:text-lynx transition">GitHub</a>
         </div>
+        <div id="mobileMenu" class="md:hidden hidden p-4 space-y-3">
+          <a href="#features" class="block text-sm hover:text-lynx transition">Funcionalidades</a>
+          <a href="#how-it-works" class="block text-sm hover:text-lynx transition">Como Funciona</a>
+          <a href="#dashboard" class="block text-sm hover:text-lynx transition">Dashboard</a>
+          <a href="#install" class="block text-sm hover:text-lynx transition">Instalação</a>
+          <a href="https://github.com/gabriel-araujo-git/Lynx-Assistant" target="_blank" class="block text-sm hover:text-lynx transition">GitHub</a>
+        </div>
         <div class="flex items-center gap-3">
-          <button id="themeToggle" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition" title="Alternar tema"><i data-lucide="moon"></i></button>
+          <button id="mobileNavBtn" class="md:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10" aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menu mobile"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          <button id="themeToggle" aria-pressed="false" aria-label="Alternar tema" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition" title="Alternar tema"><i data-lucide="moon"></i></button>
           <a href="https://github.com/gabriel-araujo-git/Lynx-Assistant/releases/download/V1.1/lynx.exe" class="hidden md:block px-4 py-2 rounded-lg bg-lynx text-black font-semibold hover:bg-lynx-600 transition">Download</a>
         </div>
       </div>
@@ -311,10 +336,10 @@
       </div>
 
       <!-- Modal -->
-      <div id="cmdModal" class="fixed inset-0 hidden items-center justify-center z-50 p-4">
+      <div id="cmdModal" class="fixed inset-0 hidden items-center justify-center z-50 p-4" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" data-close></div>
         <div class="relative bg-zinc-900 rounded-2xl p-8 w-full max-w-2xl border border-white/10 shadow-2xl">
-          <button data-close class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-zinc-400 hover:text-zinc-100 transition">✕</button>
+          <button data-close class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-zinc-400 hover:text-zinc-100 transition" aria-label="Fechar">✕</button>
           <div class="flex items-start gap-4 mb-6">
             <div id="modalIcon" class="w-16 h-16 rounded-xl bg-lynx/10 flex items-center justify-center text-3xl flex-shrink-0"><i data-lucide="laptop"></i></div>
             <div class="flex-1">
@@ -325,8 +350,8 @@
           <p id="modalDesc" class="text-zinc-300 mb-6"></p>
           <div id="modalAliases" class="mb-6"></div>
           <div class="flex gap-3">
-            <button id="copyBtn" class="flex-1 px-6 py-3 rounded-xl bg-lynx text-black font-semibold hover:bg-lynx-600 transition"><i data-lucide="list"></i> Copiar Comando</button>
-            <button id="openBtn" class="flex-1 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 font-semibold transition"><i data-lucide="rocket"></i> Executar</button>
+            <button id="copyBtn" class="flex-1 px-6 py-3 rounded-xl bg-lynx text-black font-semibold hover:bg-lynx-600 transition" aria-label="Copiar comando"><span class="flex items-center justify-center gap-2"><i data-lucide="list"></i><span>Copiar Comando</span></span></button>
+            <button id="openBtn" class="flex-1 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 font-semibold transition" aria-label="Executar comando"><span class="flex items-center justify-center gap-2"><i data-lucide="rocket"></i><span>Executar</span></span></button>
           </div>
         </div>
       </div>
@@ -429,6 +454,80 @@
     </div>
   </section>
 
+  <!-- About Section -->
+  <section id="about" class="py-20 px-4 bg-zinc-900/40">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold mb-4">Sobre o Lynx Assistant</h2>
+        <p class="text-lg text-zinc-400 max-w-3xl mx-auto">O Lynx Assistant é um assistente desktop open source criado para acelerar fluxo de trabalho. Permite abrir apps, sites e executar automações usando linguagem natural. Projetado para ser modular, seguro e facilmente personalizável.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass rounded-xl p-6">
+          <h4 class="font-semibold text-lynx mb-2">Open Source</h4>
+          <p class="text-sm text-zinc-400">Código disponível no GitHub com licença MIT.</p>
+        </div>
+        <div class="glass rounded-xl p-6">
+          <h4 class="font-semibold text-lynx mb-2">Privacidade</h4>
+          <p class="text-sm text-zinc-400">Executa comandos localmente quando configurado — sem telemetria por padrão.</p>
+        </div>
+        <div class="glass rounded-xl p-6">
+          <h4 class="font-semibold text-lynx mb-2">Extensível</h4>
+          <p class="text-sm text-zinc-400">Adicione comandos, aliases e integrações via config.json.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="py-20 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-4xl font-bold mb-2">FAQ</h2>
+        <p class="text-zinc-400">Perguntas frequentes</p>
+      </div>
+      <div class="space-y-4">
+        <details class="glass rounded-xl p-6" role="group" aria-labelledby="q1">
+          <summary id="q1" class="font-semibold cursor-pointer">Como adiciono novos comandos?</summary>
+          <div class="mt-3 text-zinc-400">Edite <code class="mono">config.json</code> e reinicie o Lynx. Veja exemplos na documentação.</div>
+        </details>
+        <details class="glass rounded-xl p-6" role="group" aria-labelledby="q2">
+          <summary id="q2" class="font-semibold cursor-pointer">Funciona em qual SO?</summary>
+          <div class="mt-3 text-zinc-400">Windows, macOS e Linux (dependendo dos executáveis locais configurados).</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap Section -->
+  <section id="roadmap" class="py-20 px-4 bg-zinc-900/30">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-4xl font-bold mb-2">Roadmap</h2>
+        <p class="text-zinc-400">Funcionalidades planejadas</p>
+      </div>
+      <ul class="space-y-4">
+        <li class="glass rounded-xl p-6"><strong>Integração com n8n</strong> — automações avançadas</li>
+        <li class="glass rounded-xl p-6"><strong>Reconhecimento de voz</strong> — comandos por áudio</li>
+        <li class="glass rounded-xl p-6"><strong>Marketplace de comandos</strong> — compartilhe automações</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Changelog Section -->
+  <section id="changelog" class="py-20 px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-4xl font-bold mb-2">Changelog</h2>
+        <p class="text-zinc-400">Histórico de alterações</p>
+      </div>
+      <div class="glass rounded-xl p-6 space-y-4">
+        <div><strong>v1.1</strong> — Melhorias de performance, novas ações de streaming e dashboard.</div>
+        <div><strong>v1.0</strong> — Lançamento inicial com suporte a comandos locais e web.</div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- Footer -->
   <footer class="py-12 px-4 border-t border-white/5">
     <div class="max-w-7xl mx-auto">
@@ -473,6 +572,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end" aria-live="polite" aria-atomic="true"></div>
 
   <script>
     // Commands Database
@@ -751,7 +853,10 @@
       if (cmd.action.type === 'url') {
         window.open(cmd.action.url, '_blank', 'noopener');
       } else if (cmd.action.type === 'local') {
-        alert(`<i data-lucide="laptop"></i> Comando Local\n\nPara executar este comando, abra seu terminal e digite:\n\n${cmd.action.exec}\n\nOu configure o Lynx Assistant localmente.`);
+        // Show a non-blocking toast with command details and copy button
+        showToast(`<strong>Comando Local</strong><div class="mt-1 mono text-sm">Abra seu terminal e execute:<div class="mt-2 p-2 bg-zinc-900 rounded-md">${escapeHtml(cmd.action.exec)}</div></div>`, 'info', 8000);
+        // copy example to clipboard for convenience
+        try { navigator.clipboard.writeText(cmd.action.exec); showToast('Comando copiado para a área de transferência.', 'success', 2400); } catch(e) {}
       }
     }
 
@@ -924,7 +1029,41 @@
       section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
       observer.observe(section);
     });
+
+    // Hide loader when ready
+    window.addEventListener('load', ()=>{
+      const loader = document.getElementById('siteLoader');
+      if (loader) loader.style.display = 'none';
+    });
+
+    // Toast utility
+    function showToast(html, type = 'info', timeout = 4000) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const id = 't' + Date.now();
+      const el = document.createElement('div');
+      el.className = 'glass rounded-lg p-4 shadow-lg max-w-sm animate-fade-in';
+      el.setAttribute('role','status');
+      el.innerHTML = `<div class="flex items-start gap-3"><div class="flex-1 text-sm text-left">${html}</div><button class="ml-4 text-xs p-2 rounded bg-white/5 hover:bg-white/10" aria-label="Fechar notificação">✕</button></div>`;
+      container.appendChild(el);
+      const btn = el.querySelector('button');
+      btn.addEventListener('click', ()=> { container.removeChild(el); });
+      if (timeout) setTimeout(()=>{ if (container.contains(el)) container.removeChild(el); }, timeout);
+    }
+
+    // Enhance accessibility: focus outlines for keyboard users
+    document.addEventListener('keyup', (e)=>{ if (e.key==='Tab') document.documentElement.classList.add('show-focus-outlines'); });
+
   </script>
+<script>
+  document.getElementById('mobileNavBtn')?.addEventListener('click', ()=>{
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('mobileNavBtn');
+    if (!menu) return;
+    const open = menu.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
+  });
+</script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>lucide.createIcons();</script>
 </body>
