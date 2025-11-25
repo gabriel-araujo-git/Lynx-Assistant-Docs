@@ -833,14 +833,20 @@
       });
     });
 
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      if (currentCommand) {
-        navigator.clipboard.writeText(currentCommand.title);
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = '✓ Copiado!';
-        setTimeout(() => btn.textContent = '<i data-lucide="list"></i> Copiar Comando', 1000);
-      }
-    });
+  document.getElementById('copyBtn').addEventListener('click', () => {
+  if (currentCommand) {
+    navigator.clipboard.writeText(currentCommand.title);
+
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copiado!';
+
+    setTimeout(() => {
+      btn.innerHTML = '<i data-lucide="list"></i> Copiar Comando';
+      lucide.createIcons(); // recria o ícone
+    }, 1000);
+  }
+});
+  
 
     document.getElementById('openBtn').addEventListener('click', () => {
       if (currentCommand) {
@@ -862,22 +868,30 @@
 
     // Quick Actions
     document.addEventListener('click', (e) => {
-      const copyBtn = e.target.closest('.copy-btn');
-      if (copyBtn) {
-        const id = copyBtn.dataset.id;
-        const cmd = COMMANDS.find(x => x.id === id);
-        navigator.clipboard.writeText(cmd.title);
-        copyBtn.textContent = '✓ Copiado';
-        setTimeout(() => copyBtn.textContent = '<i data-lucide="list"></i> Copiar', 1000);
-      }
-      
-      const openBtn = e.target.closest('.open-btn');
-      if (openBtn) {
-        const id = openBtn.dataset.id;
-        const cmd = COMMANDS.find(x => x.id === id);
-        executeCommand(cmd);
-      }
-    });
+  const copyBtn = e.target.closest('.copy-btn');
+  if (copyBtn) {
+    const id = copyBtn.dataset.id;
+    const cmd = COMMANDS.find(x => x.id === id);
+    navigator.clipboard.writeText(cmd.title);
+
+    // Exibe o check
+    copyBtn.innerText = '✓ Copiado';
+
+    // Restaura com ícone
+    setTimeout(() => {
+      copyBtn.innerHTML = '<i data-lucide="list"></i> Copiar';
+      lucide.createIcons(); // re-renderiza o ícone
+    }, 1000);
+  }
+  
+  const openBtn = e.target.closest('.open-btn');
+  if (openBtn) {
+    const id = openBtn.dataset.id;
+    const cmd = COMMANDS.find(x => x.id === id);
+    executeCommand(cmd);
+  }
+});
+
 
     // Filter and Search
     function filterAndSearch() {
