@@ -27,7 +27,7 @@ Ele inclui:
 Este repositório não contém o código-fonte do assistente em Python.  
 O código principal se encontra no repositório:
 
-https://github.com/gabriel-araujo-git/Lynx-Assistant
+https://github.com/GabrielAraujoGit/Lynx-Assistant
 
 ---
 
