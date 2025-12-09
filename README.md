@@ -2,12 +2,13 @@
 # Lynx Assistant Docs
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Projeto-Lynx%20Assistant-0D1117?style=flat&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/Tipo-Documentação-0D1117?style=flat&logo=readthedocs&logoColor=8CA1FF" />
-  <img src="https://img.shields.io/badge/Status-Ativo-0D1117?style=flat&logo=checkmarx&logoColor=00FF70" />
-  <img src="https://img.shields.io/badge/Stack-HTML%20%7C%20CSS%20%7C%20JS-0D1117?style=flat&logo=codeigniter&logoColor=FF9800" />
-  <img src="https://img.shields.io/badge/License-MIT-0D1117?style=flat&logo=open-source-initiative&logoColor=00E676" />
+  <img src="https://img.shields.io/badge/Projeto-Lynx%20Assistant-0D1117?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tipo-Documentação-0D1117?style=for-the-badge&logo=readthedocs&logoColor=8CA1FF" />
+  <img src="https://img.shields.io/badge/Status-Ativo-0D1117?style=for-the-badge&logo=checkmarx&logoColor=00FF70" />
+  <img src="https://img.shields.io/badge/Stack-HTML%20%7C%20CSS%20%7C%20JS-0D1117?style=for-the-badge&logo=codeigniter&logoColor=FF9800" />
+  <img src="https://img.shields.io/badge/License-MIT-0D1117?style=for-the-badge&logo=open-source-initiative&logoColor=00E676" />
 </p>
+
 
 
 ---
